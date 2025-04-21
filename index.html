@@ -1,45 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4f46e5">
+  <meta name="theme-color" content="#4f46e5">
   <title>Study Timer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Bootstrap CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* الخيار 1: نمط هندسي */
+    body {
+      background-color: #ffffff;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%234f46e5' fill-opacity='0.1'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    /* الخيار 2: خلفية متدرجة حديثة */
+    body {
+      background: linear-gradient(120deg, #f6f8fd 0%, #f1f4f9 100%);
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234f46e5' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+    }
+
+    /* الخيار 3: خلفية متموجة */
+    body {
+      background:
+        linear-gradient(45deg, transparent 25%, rgba(79, 70, 229, 0.05) 25%) 50px 0,
+        linear-gradient(-45deg, transparent 25%, rgba(79, 70, 229, 0.05) 25%) 50px 0,
+        linear-gradient(45deg, rgba(79, 70, 229, 0.05) 75%, transparent 75%),
+        linear-gradient(-45deg, rgba(79, 70, 229, 0.05) 75%, transparent 75%);
+      background-size: 100px 100px;
+      background-color: #ffffff;
+    }
+
+    .timer-container {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin: 0 auto;
+    }
+
+    .progress-ring {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: rotate(-90deg);
+    }
+
+    .progress-ring circle {
+      transition: stroke-dashoffset 0.35s;
+      transform-origin: 50% 50%;
+    }
+
+    #timer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3.5rem;
+      letter-spacing: 2px;
+    }
+
+    .btn {
+      transition: all 0.3s ease;
+      transform: scale(1);
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+    }
+
+    .btn:active {
+      transform: scale(0.95);
+    }
+
+    input[type="number"] {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      color: #4f46e5;
+      transition: all 0.3s ease;
+    }
+
+    input[type="number"]:focus {
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+    }
+  </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
-  <div class="bg-white shadow-2xl rounded-2xl p-10 text-center max-w-md w-full border border-gray-200">
-    <h1 class="text-3xl font-bold mb-6 text-indigo-600">Study Timer</h1>
+<body class="flex flex-col items-center justify-center text-white text-center p-4">
 
-    <div id="timer" class="text-6xl font-mono text-gray-800 mb-6">25:00</div>
+  <div class="bg-white shadow-2xl rounded-2xl p-8 text-center max-w-md w-full backdrop-blur-lg bg-opacity-90">
+    <h1 class="text-4xl font-bold mb-8 text-indigo-600 tracking-wide">Study Timer</h1>
 
-    <div class="flex justify-center gap-4">
-      <button onclick="startTimer()" class="btn btn-success px-4">Start</button>
-      <button onclick="pauseTimer()" class="btn btn-warning px-4">Pause</button>
-      <button onclick="resetTimer()" class="btn btn-danger px-4">Reset</button>
+    <div class="timer-container mb-8">
+      <svg class="progress-ring" width="300" height="300">
+        <circle stroke="#e5e7eb" stroke-width="8" fill="transparent" r="140" cx="150" cy="150" />
+        <circle id="progress-circle" stroke="#4f46e5" stroke-width="8" fill="transparent" r="140" cx="150" cy="150"
+          stroke-dasharray="879.6" stroke-dashoffset="0" />
+      </svg>
+      <div id="timer" class="font-mono text-gray-800">25:00</div>
+    </div>
+
+    <div class="flex justify-center gap-4 mb-8">
+      <button onclick="startTimer()" class="btn btn-success px-6 py-2 rounded-lg shadow-lg flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+        </svg>
+        Start
+      </button>
+      <button onclick="pauseTimer()" class="btn btn-warning px-6 py-2 rounded-lg shadow-lg flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6" />
+        </svg>
+        Pause
+      </button>
+      <button onclick="resetTimer()" class="btn btn-danger px-6 py-2 rounded-lg shadow-lg flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+        Reset
+      </button>
     </div>
 
     <div class="mt-6">
-      <label class="block mb-2 text-sm text-gray-600">Set Time (minutes):</label>
-      <input type="number" id="customTime" min="1" placeholder="مثلاً 25" class="form-control text-center w-32 mx-auto" />
-      <button onclick="setCustomTime()" class="btn btn-primary mt-2">Set</button>
+      <label class="block mb-3 text-sm font-medium text-gray-600">Set Time (minutes):</label>
+      <div class="flex items-center justify-center gap-2">
+        <input type="number" id="customTime" min="1" placeholder="25" class="form-control text-center w-24 mx-auto" />
+        <button onclick="setCustomTime()" class="btn btn-primary px-4 py-2 rounded-lg shadow-lg">Set</button>
+      </div>
     </div>
   </div>
 
   <script>
     let time = 25 * 60;
+    let initialTime = time;
     let timerInterval;
     let isRunning = false;
+
+    const progressCircle = document.getElementById('progress-circle');
+    const circumference = 2 * Math.PI * 140;
+    progressCircle.style.strokeDasharray = `${circumference}`;
+
+    function updateProgress() {
+      const progress = time / initialTime;
+      const offset = circumference - (progress * circumference);
+      progressCircle.style.strokeDashoffset = offset;
+    }
 
     function updateTimerDisplay() {
       const minutes = String(Math.floor(time / 60)).padStart(2, '0');
       const seconds = String(time % 60).padStart(2, '0');
       document.getElementById('timer').textContent = `${minutes}:${seconds}`;
+      updateProgress();
     }
 
     function startTimer() {
@@ -52,7 +179,7 @@
         } else {
           clearInterval(timerInterval);
           isRunning = false;
-          alert("Time's up!");
+          celebrate();
         }
       }, 1000);
     }
@@ -64,7 +191,7 @@
 
     function resetTimer() {
       pauseTimer();
-      time = 25 * 60;
+      time = initialTime;
       updateTimerDisplay();
     }
 
@@ -73,19 +200,41 @@
       if (input && input > 0) {
         pauseTimer();
         time = input * 60;
+        initialTime = time;
         updateTimerDisplay();
       }
     }
 
-    updateTimerDisplay(); // Initial load
+    function celebrate() {
+      const duration = 3 * 1000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
+
+      const interval = setInterval(function () {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: Math.random(), y: Math.random() - 0.2 }
+        });
+      }, 200);
+    }
+
+    updateTimerDisplay();
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/service-worker.js')
         .then(() => console.log("Service Worker Registered"));
     }
-
-
   </script>
   <script src="service-worker.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </body>
+
 </html>
