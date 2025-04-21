@@ -97,6 +97,40 @@
       border-color: #4f46e5;
       box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
     }
+
+    .timer-container {
+      position: relative;
+      width: min(300px, 90vw);
+      height: min(300px, 90vw);
+      margin: 0 auto;
+    }
+
+    #timer {
+      font-size: clamp(2rem, 8vw, 3.5rem);
+    }
+
+    @media (max-width: 640px) {
+      .flex-buttons {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .main-container {
+        padding: 1.5rem;
+        margin: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.875rem;
+      }
+    }
   </style>
 </head>
 
@@ -136,10 +170,9 @@
         Reset
       </button>
     </div>
-
     <div class="mt-6">
       <label class="block mb-3 text-sm font-medium text-gray-600">Set Time (minutes):</label>
-      <div class="flex items-center justify-center gap-2">
+      <div class="flex items-center justify-center gap-2 flex-wrap">
         <input type="number" id="customTime" min="1" placeholder="25" class="form-control text-center w-24 mx-auto" />
         <button onclick="setCustomTime()" class="btn btn-primary px-4 py-2 rounded-lg shadow-lg">Set</button>
       </div>
